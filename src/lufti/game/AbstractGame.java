@@ -15,7 +15,7 @@ import lufti.ui.SimpleWindow;
  *
  * @author ubik
  */
-public abstract class AbstractGame implements Canvas.RenderCallback {
+public abstract class AbstractGame {
     
     private SimpleWindow window = null;
     
@@ -24,7 +24,15 @@ public abstract class AbstractGame implements Canvas.RenderCallback {
     public void setup(int width, int height, int ups, int fps, Color bg) {
         SimpleWindow window = SimpleWindow.create(width, height, fps, bg);
         
-        window.getCanvas().addRenderCallback(this);
+        final AbstractGame me = this;
+        window.getCanvas().addRenderCallback(new Canvas.RenderCallback() {
+            @Override
+            public void render(Canvas.CanvasPainter pntr) {
+                synchronized(me) {
+                    me.render(pntr);
+                }
+            }
+        });
         window.getCanvas().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -46,7 +54,9 @@ public abstract class AbstractGame implements Canvas.RenderCallback {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                update();
+                synchronized(me) {
+                    update();
+                }
             }
         }, 0, (long)Math.ceil(1000/(double)ups));
     }

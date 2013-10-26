@@ -86,7 +86,6 @@ public class Canvas extends JPanel {
     }
 
     public interface CanvasPainter {
-
         public void drawImage(Image img, int x, int y);
     }
 }
