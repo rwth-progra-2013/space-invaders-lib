@@ -1,11 +1,8 @@
 package lufti.game;
 
-import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
 import lufti.ui.Canvas;
@@ -19,9 +16,7 @@ public abstract class AbstractGame {
     
     public AbstractGame() {}
     
-    public void setup(int width, int height, int ups, int fps, Color bg) {
-        SimpleWindow window = SimpleWindow.create(width, height, fps, bg);
-        
+    public void setup(SimpleWindow window, int ups) {
         final AbstractGame me = this;
         window.getCanvas().addRenderCallback(new Canvas.RenderCallback() {
             @Override

@@ -11,6 +11,7 @@ import lufti.game.AbstractGame;
 import lufti.sprites.CompactSpriteSheet;
 import lufti.sprites.SpriteSheet;
 import lufti.ui.Canvas;
+import lufti.ui.SimpleWindow;
 
 /**
  *
@@ -45,7 +46,8 @@ public class GameTest {
             x = y = 0;
             ticker = 0;
             sprites = spr;
-            setup(800, 600, 60, 60, Color.BLACK);
+	    SimpleWindow window = SimpleWindow.create(800, 600, 60, Color.BLACK);
+            setup(window, 60);
         }
 
         @Override
