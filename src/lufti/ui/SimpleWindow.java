@@ -7,6 +7,8 @@ import java.awt.Color;
  * @author ubik
  */
 public class SimpleWindow extends javax.swing.JFrame {
+    
+    private Canvas canvas;
 
     public static void setLookAndFeel(String name) {
         try {
@@ -34,8 +36,6 @@ public class SimpleWindow extends javax.swing.JFrame {
 
         return win;
     }
-
-    private Canvas canvas;
 
     private SimpleWindow(int width, int height, int fps, Color background) {
         initComponents(width, height, fps, background);
