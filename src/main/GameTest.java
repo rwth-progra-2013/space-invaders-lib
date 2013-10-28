@@ -21,74 +21,79 @@ public class GameTest {
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void main(String args[]) throws IOException {
-        BufferedImage sheet = ImageIO.read(SpriteTest.class.getResourceAsStream("/lufti/sprites/classic.png"));
-        CompactSpriteSheet spr = new CompactSpriteSheet(sheet);
-        spr.addSprite("InvaderA", 24, 10, 11, 8, 0);
-        spr.addSprite("InvaderA", 37, 10, 11, 8, 1);
+	BufferedImage sheet = ImageIO.read(SpriteTest.class.getResourceAsStream("/lufti/sprites/classic.png"));
+	CompactSpriteSheet spr = new CompactSpriteSheet(sheet);
+	spr.addSprite("InvaderA", 24, 10, 11, 8, 0);
+	spr.addSprite("InvaderA", 37, 10, 11, 8, 1);
 
-        spr.addSprite("Projectile", 2, 16, 3, 7, 0);
-        spr.addSprite("Projectile", 6, 16, 3, 7, 1);
-        spr.addSprite("Projectile", 10, 16, 3, 7, 2);
-        new SimpleGame(spr.scale(4));
+	spr.addSprite("Projectile", 2, 16, 3, 7, 0);
+	spr.addSprite("Projectile", 6, 16, 3, 7, 1);
+	spr.addSprite("Projectile", 10, 16, 3, 7, 2);
+	SimpleGame.create(spr.scale(4));
     }
 
     static class SimpleGame extends AbstractGame {
 
-        private ArrayList<Point> bullets = new ArrayList<>();
-        private ArrayList<Point> bulletQueue = new ArrayList<>();
+	private ArrayList<Point> bullets = new ArrayList<>();
+	private ArrayList<Point> bulletQueue = new ArrayList<>();
+	private SpriteSheet sprites;
+	private int x, y;
+	private int ticker;
+	boolean rendering = false;
 
-        private SpriteSheet sprites;
-        private int x, y;
-        private int ticker;
+	public SimpleGame(SpriteSheet spr) {
+	    x = y = 0;
+	    ticker = 0;
+	    sprites = spr;
+	}
 
-        boolean rendering = false;
-        
-        public SimpleGame(SpriteSheet spr) {
-            x = y = 0;
-            ticker = 0;
-            sprites = spr;
+	public static SimpleGame create(SpriteSheet spr) {
+	    SimpleGame res = new SimpleGame(spr);
+
 	    SimpleWindow window = SimpleWindow.create(800, 600, 60, Color.BLACK);
-            AbstractGame.attach(this, window, 60);
-        }
+	    AbstractGame.attach(res, window, 60);
 
-        @Override
-        public void update() {
-            assert( !rendering );
-            bullets.addAll(bulletQueue);
-            bulletQueue.clear();
+	    return res;
+	}
 
-            ListIterator<Point> listIterator = bullets.listIterator();
-            while (listIterator.hasNext()) {
-                Point bullet = listIterator.next();
-                bullet.y += 5;
-                if (bullet.y > 600) {
-                    listIterator.remove();
-                }
-            }
+	@Override
+	public void update() {
+	    assert (!rendering);
+	    bullets.addAll(bulletQueue);
+	    bulletQueue.clear();
 
-            ticker++;
-        }
+	    ListIterator<Point> listIterator = bullets.listIterator();
+	    while (listIterator.hasNext()) {
+		Point bullet = listIterator.next();
+		bullet.y += 5;
+		if (bullet.y > 600) {
+		    listIterator.remove();
+		}
+	    }
 
-        @Override
-        public void render(Canvas.CanvasPainter pntr) {
-            rendering = true;
-            pntr.drawImage(sprites.getSprite("InvaderA", 0), x - 20, y - 10);
+	    ticker++;
+	}
 
-            for (Point bullet : bullets) {
-                pntr.drawImage(sprites.getSprite("Projectile", (ticker / 2) % 3), bullet.x - 1, bullet.y);
-            }
-            rendering = false;
-        }
+	@Override
+	public void render(Canvas.CanvasPainter pntr) {
+	    rendering = true;
+	    pntr.drawImage(sprites.getSprite("InvaderA", 0), x - 20, y - 10);
 
-        @Override
-        public void mouseMove(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
+	    for (Point bullet : bullets) {
+		pntr.drawImage(sprites.getSprite("Projectile", (ticker / 2) % 3), bullet.x - 1, bullet.y);
+	    }
+	    rendering = false;
+	}
 
-        @Override
-        public void mouseDown() {
-            bulletQueue.add(new Point(x - 2, y + 8));
-        }
+	@Override
+	public void mouseMove(int x, int y) {
+	    this.x = x;
+	    this.y = y;
+	}
+
+	@Override
+	public void mouseDown() {
+	    bulletQueue.add(new Point(x - 2, y + 8));
+	}
     }
 }
