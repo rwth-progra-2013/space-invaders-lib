@@ -1,8 +1,5 @@
 package lufti.game;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 import lufti.ui.Canvas;
@@ -13,6 +10,8 @@ import lufti.ui.Window;
  * @author ubik
  */
 public abstract class AbstractGame {
+    
+    private final PlayerInput playerInput = new PlayerInput();
     
     public AbstractGame() {}
     
@@ -25,37 +24,34 @@ public abstract class AbstractGame {
                 }
             }
         });
-        window.getCanvas().addMouseListener(new MouseAdapter() {
+
+	window.getMainWindow().addKeyListener(target.playerInput);
+	
+	// Test: mouse input
+	/*
+	window.getCanvas().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                target.mouseDown();
+		synchronized(target.playerInput) {
+		    target.playerInput.addCommand(PlayerInput.Command.SHOOT);
+		}
             }
-        });
-        
-        window.getCanvas().addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                target.mouseMove(e.getX(), e.getY());
-            }
-        });
+        });*/
         
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 synchronized(target) {
-                    target.update();
+                    target.updateGame();
                 }
             }
         }, 0, (long)Math.ceil(1000/(double)ups));
     }
     
-    public abstract void mouseMove(int x, int y);
-    public abstract void mouseDown();
+    private void updateGame() {
+	this.update(playerInput);
+    }
     
-    public abstract void update();
+    public abstract void update(PlayerInput input);
     public abstract void render(Canvas.CanvasPainter pntr);
 }
