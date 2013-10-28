@@ -48,6 +48,14 @@ public abstract class AbstractGame {
 	this.update(playerInput);
     }
     
+    /**
+     * This function is the one that will be called by the main loop of the
+     * game. It is expected to pass information to the different components of
+     * the game which perform actions and perform global actions. It must also
+     * pass the input of the player to the appropriate elements of the game.
+     *
+     * @param input All the input commands from the player. 
+     */
     public abstract void update(PlayerInput input);
     public abstract void render(Canvas.CanvasPainter pntr);
 }
