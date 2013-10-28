@@ -8,80 +8,81 @@ import javax.swing.JFrame;
  * @author ubik
  */
 public class SimpleWindow extends javax.swing.JFrame implements Window {
-    
-    private Canvas canvas;
 
-    public static void setLookAndFeel(String name) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if (name.equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SimpleWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-    }
+	private Canvas canvas;
 
-    /**
-     * Creates a new window with the specified parameters.
-     * @param width The width of the window (not including window decorations)
-     * @param height The height of the window (not including window decorations)
-     * @param fps The number of redraws per second
-     * @param background The background color of the main canvas.
-     * @return A new window instance.
-     */
-    public static SimpleWindow create(int width, int height, int fps, Color background) {
+	public static void setLookAndFeel(String name) {
+		try {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+				if (name.equals(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(SimpleWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		}
+	}
 
-        final SimpleWindow win = new SimpleWindow(width, height, fps, background);
+	/**
+	 * Creates a new window with the specified parameters.
+	 *
+	 * @param width The width of the window (not including window decorations)
+	 * @param height The height of the window (not including window decorations)
+	 * @param fps The number of redraws per second
+	 * @param background The background color of the main canvas.
+	 * @return A new window instance.
+	 */
+	public static SimpleWindow create(int width, int height, int fps, Color background) {
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-	    @Override
-            public void run() {
-                win.setVisible(true);
-            }
-        });
+		final SimpleWindow win = new SimpleWindow(width, height, fps, background);
 
-        return win;
-    }
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				win.setVisible(true);
+			}
+		});
 
-    private SimpleWindow(int width, int height, int fps, Color background) {
-        initComponents(width, height, fps, background);
-    }
+		return win;
+	}
 
-    @Override
-    public Canvas getCanvas() {
-        return canvas;
-    }
+	private SimpleWindow(int width, int height, int fps, Color background) {
+		initComponents(width, height, fps, background);
+	}
 
-    private void initComponents(int width, int height, int fps, Color background) {
+	@Override
+	public Canvas getCanvas() {
+		return canvas;
+	}
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+	private void initComponents(int width, int height, int fps, Color background) {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, width, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, height, Short.MAX_VALUE)
-        );
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        canvas = new Canvas(fps, background);
-        canvas.setSize(width, height);
-        getContentPane().add(canvas);
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(
+				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, width, Short.MAX_VALUE)
+		);
+		layout.setVerticalGroup(
+				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, height, Short.MAX_VALUE)
+		);
 
-        pack();
+		canvas = new Canvas(fps, background);
+		canvas.setSize(width, height);
+		getContentPane().add(canvas);
 
-        // Center window
-        setLocationRelativeTo(null);
-    }
+		pack();
 
-    @Override
-    public JFrame getMainWindow() {
-	return this;
-    }
+		// Center window
+		setLocationRelativeTo(null);
+	}
+
+	@Override
+	public JFrame getMainWindow() {
+		return this;
+	}
 }

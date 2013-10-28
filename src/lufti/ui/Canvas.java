@@ -12,80 +12,80 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * TODO: implement proper drawing using paintComponent.
  *
  * @author ubik
  */
 public class Canvas extends JPanel {
 
-    private Color color;
-    private ArrayList<RenderCallback> renderCallbacks = new ArrayList<>();
+	private Color color;
+	private ArrayList<RenderCallback> renderCallbacks = new ArrayList<>();
 
-    private BufferedImage frameBuffer = null;
+	private BufferedImage frameBuffer = null;
 
-    public Canvas(int fps, Color color) {
-        this.color = color;
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                render();
-            }
-        }, 0, (long) Math.ceil(1000 / (double) fps));
+	public Canvas(int fps, Color color) {
+		this.color = color;
+		new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {
+				render();
+			}
+		}, 0, (long) Math.ceil(1000 / (double) fps));
 
-        setCursor(getToolkit().createCustomCursor(
-                new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
-                "null"));
-    }
+		setCursor(getToolkit().createCustomCursor(
+				new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
+				"null"));
+	}
 
-    public void addRenderCallback(RenderCallback rndr) {
-        renderCallbacks.add(rndr);
-    }
+	public void addRenderCallback(RenderCallback rndr) {
+		renderCallbacks.add(rndr);
+	}
 
-    public void removeRenderCallback(RenderCallback rndr) {
-        renderCallbacks.remove(rndr);
-    }
+	public void removeRenderCallback(RenderCallback rndr) {
+		renderCallbacks.remove(rndr);
+	}
 
-    private void render() {
-        if (frameBuffer == null) {
-            if (getWidth() == 0 || getHeight() == 0) {
-                // Not yet layouted by parent comp.
-                return;
-            }
-            frameBuffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-        }
-        final Graphics2D gr = (Graphics2D) frameBuffer.getGraphics(); // AWT legacy
-        gr.setColor(color);
-        gr.fillRect(0, 0, frameBuffer.getWidth(), frameBuffer.getHeight());
+	private void render() {
+		if (frameBuffer == null) {
+			if (getWidth() == 0 || getHeight() == 0) {
+				// Not yet layouted by parent comp.
+				return;
+			}
+			frameBuffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		}
+		final Graphics2D gr = (Graphics2D) frameBuffer.getGraphics(); // AWT legacy
+		gr.setColor(color);
+		gr.fillRect(0, 0, frameBuffer.getWidth(), frameBuffer.getHeight());
 
-        CanvasPainter pntr = new CanvasPainter() {
-            @Override
-            public void drawImage(Image img, int x, int y) {
-                gr.drawImage(img, x, y, null);
-            }
-        };
+		CanvasPainter pntr = new CanvasPainter() {
+			@Override
+			public void drawImage(Image img, int x, int y) {
+				gr.drawImage(img, x, y, null);
+			}
+		};
 
-        for (RenderCallback cb : renderCallbacks) {
-            cb.render(pntr);
-        }
+		for (RenderCallback cb : renderCallbacks) {
+			cb.render(pntr);
+		}
 
-        repaint();
-    }
+		repaint();
+	}
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        if (frameBuffer == null) {
-            return;
-        }
+	@Override
+	protected void paintComponent(Graphics g) {
+		if (frameBuffer == null) {
+			return;
+		}
 
-        g.drawImage(frameBuffer, 0, 0, null);
-    }
+		g.drawImage(frameBuffer, 0, 0, null);
+	}
 
-    public interface RenderCallback {
+	public interface RenderCallback {
 
-        public void render(CanvasPainter pntr);
-    }
+		public void render(CanvasPainter pntr);
+	}
 
-    public interface CanvasPainter {
-        public void drawImage(Image img, int x, int y);
-    }
+	public interface CanvasPainter {
+
+		public void drawImage(Image img, int x, int y);
+	}
 }

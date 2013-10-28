@@ -27,9 +27,10 @@ public class GameTest {
 
 	static class SimpleGame extends AbstractGame {
 
-		private ArrayList<Point> bullets = new ArrayList<>();
-		private SpriteSheet sprites;
-		private int x, y, width, height;
+		private final ArrayList<Point> bullets = new ArrayList<>();
+		private final SpriteSheet sprites;
+		private final int width, height;
+		private int x, y;
 		private int ticker;
 		boolean rendering = false;
 
@@ -47,7 +48,7 @@ public class GameTest {
 
 			SimpleWindow window = SimpleWindow.create(width, height, 60, Color.BLACK);
 			AbstractGame.attach(res, window, 60);
-
+			
 			return res;
 		}
 
