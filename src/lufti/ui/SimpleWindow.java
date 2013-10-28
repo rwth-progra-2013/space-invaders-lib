@@ -24,6 +24,14 @@ public class SimpleWindow extends javax.swing.JFrame implements Window {
         }
     }
 
+    /**
+     * Creates a new window with the specified parameters.
+     * @param width The width of the window (not including window decorations)
+     * @param height The height of the window (not including window decorations)
+     * @param fps The number of redraws per second
+     * @param background The background color of the main canvas.
+     * @return A new window instance.
+     */
     public static SimpleWindow create(int width, int height, int fps, Color background) {
 
         final SimpleWindow win = new SimpleWindow(width, height, fps, background);

@@ -6,7 +6,13 @@ import lufti.ui.Canvas;
 import lufti.ui.Window;
 
 /**
- *
+ * An abstract game class providing asynchronous
+ * render() and update() methods. 
+ * 
+ * The game must be attached to a window via AbstractGame.attach(...) to
+ * run, the rendering takes place in the Canvas supplied by the Window
+ * via getCanvas().
+ * 
  * @author ubik
  */
 public abstract class AbstractGame {
@@ -15,6 +21,12 @@ public abstract class AbstractGame {
     
     public AbstractGame() {}
     
+    /**
+     * Attaches the game to a window and executes it.
+     * @param target The game to run
+     * @param window A window to attach to
+     * @param ups The number of updates per second.
+     */
     public static void attach(final AbstractGame target, Window window, int ups) {
         window.getCanvas().addRenderCallback(new Canvas.RenderCallback() {
             @Override
