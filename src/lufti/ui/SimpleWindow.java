@@ -6,7 +6,7 @@ import java.awt.Color;
  *
  * @author ubik
  */
-public class SimpleWindow extends javax.swing.JFrame {
+public class SimpleWindow extends javax.swing.JFrame implements Window {
     
     private Canvas canvas;
 
@@ -41,6 +41,7 @@ public class SimpleWindow extends javax.swing.JFrame {
         initComponents(width, height, fps, background);
     }
 
+    @Override
     public Canvas getCanvas() {
         return canvas;
     }
