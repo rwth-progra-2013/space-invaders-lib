@@ -11,10 +11,6 @@ import javax.swing.JPanel;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- *
- * @author ubik
- */
 public class Canvas extends JPanel {
 
 	private Color color;
