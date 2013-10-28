@@ -1,6 +1,7 @@
 package lufti.ui;
 
 import java.awt.Color;
+import javax.swing.JFrame;
 
 /**
  *
@@ -69,5 +70,10 @@ public class SimpleWindow extends javax.swing.JFrame implements Window {
 
         // Center window
         setLocationRelativeTo(null);
+    }
+
+    @Override
+    public JFrame getMainWindow() {
+	return this;
     }
 }
