@@ -2,15 +2,13 @@ package main;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ListIterator;
-import javax.imageio.ImageIO;
 import lufti.game.AbstractGame;
-import lufti.sprites.SpriteSheetFactory;
 import lufti.game.PlayerInput;
 import lufti.sprites.SpriteSheet;
+import lufti.sprites.SpriteSheetFactory;
 import lufti.ui.Canvas;
 import lufti.ui.SimpleWindow;
 
@@ -31,7 +29,6 @@ public class GameTest {
     static class SimpleGame extends AbstractGame {
 
 	private ArrayList<Point> bullets = new ArrayList<>();
-	private ArrayList<Point> bulletQueue = new ArrayList<>();
 	private SpriteSheet sprites;
 	private int x, y, width, height;
 	private int ticker;
@@ -56,16 +53,32 @@ public class GameTest {
 	}
 
 	@Override
-	public void update() {
+	public void update(PlayerInput input) {
 	    assert (!rendering);
-	    bullets.addAll(bulletQueue);
-	    bulletQueue.clear();
+
+	    if (input.containsCommand(PlayerInput.Command.SHOOT)) {
+		bullets.add(new Point(x - 2, y - 8));
+	    }
+
+	    if (input.containsCommand(PlayerInput.Command.LEFT)) {
+		x -= 4;
+		if (x < 50) {
+		    x = 50;
+		}
+	    }
+
+	    if (input.containsCommand(PlayerInput.Command.RIGHT)) {
+		x += 4;
+		if (x > width - 50) {
+		    x = width - 50;
+		}
+	    }
 
 	    ListIterator<Point> listIterator = bullets.listIterator();
 	    while (listIterator.hasNext()) {
 		Point bullet = listIterator.next();
-		bullet.y += 5;
-		if (bullet.y > 600) {
+		bullet.y -= 5;
+		if (bullet.y < -50) {
 		    listIterator.remove();
 		}
 	    }
@@ -76,23 +89,12 @@ public class GameTest {
 	@Override
 	public void render(Canvas.CanvasPainter pntr) {
 	    rendering = true;
-	    pntr.drawImage(sprites.getSprite("InvaderA", 0), x - 20, y - 10);
+	    pntr.drawImage(sprites.getSprite("Ship", 0), x - 26, y - 10);
 
 	    for (Point bullet : bullets) {
-		pntr.drawImage(sprites.getSprite("Projectile", (ticker / 2) % 3), bullet.x - 1, bullet.y);
+		pntr.drawImage(sprites.getSprite("ProjectileA", 0), bullet.x, bullet.y);
 	    }
 	    rendering = false;
-	}
-
-	@Override
-	public void mouseMove(int x, int y) {
-	    this.x = x;
-	    this.y = y;
-	}
-
-	@Override
-	public void mouseDown() {
-	    bulletQueue.add(new Point(x - 2, y + 8));
 	}
     }
 }
