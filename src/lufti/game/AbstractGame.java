@@ -16,20 +16,19 @@ public abstract class AbstractGame {
     
     public AbstractGame() {}
     
-    public void setup(Window window, int ups) {
-        final AbstractGame me = this;
+    public static void attach(final AbstractGame target, Window window, int ups) {
         window.getCanvas().addRenderCallback(new Canvas.RenderCallback() {
             @Override
             public void render(Canvas.CanvasPainter pntr) {
-                synchronized(me) {
-                    me.render(pntr);
+                synchronized(target) {
+                    target.render(pntr);
                 }
             }
         });
         window.getCanvas().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                mouseDown();
+                target.mouseDown();
             }
         });
         
@@ -40,15 +39,15 @@ public abstract class AbstractGame {
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                mouseMove(e.getX(), e.getY());
+                target.mouseMove(e.getX(), e.getY());
             }
         });
         
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                synchronized(me) {
-                    update();
+                synchronized(target) {
+                    target.update();
                 }
             }
         }, 0, (long)Math.ceil(1000/(double)ups));

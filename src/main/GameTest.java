@@ -48,7 +48,7 @@ public class GameTest {
             ticker = 0;
             sprites = spr;
 	    SimpleWindow window = SimpleWindow.create(800, 600, 60, Color.BLACK);
-            setup(window, 60);
+            AbstractGame.attach(this, window, 60);
         }
 
         @Override
