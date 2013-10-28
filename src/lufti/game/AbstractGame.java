@@ -17,8 +17,6 @@ import lufti.ui.SimpleWindow;
  */
 public abstract class AbstractGame {
     
-    private SimpleWindow window = null;
-    
     public AbstractGame() {}
     
     public void setup(int width, int height, int ups, int fps, Color bg) {
