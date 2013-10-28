@@ -11,8 +11,6 @@ public class PlayerInput implements KeyListener {
 	LEFT, RIGHT, SHOOT
     }
     
-    public PlayerInput() {
-    }
     
     public boolean containsCommand(Command cmd) {
 	return commands.contains(cmd);
