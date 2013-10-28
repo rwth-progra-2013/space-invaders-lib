@@ -6,7 +6,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 import lufti.ui.Canvas;
-import lufti.ui.SimpleWindow;
+import lufti.ui.Window;
 
 /**
  *
@@ -16,7 +16,7 @@ public abstract class AbstractGame {
     
     public AbstractGame() {}
     
-    public void setup(SimpleWindow window, int ups) {
+    public void setup(Window window, int ups) {
         final AbstractGame me = this;
         window.getCanvas().addRenderCallback(new Canvas.RenderCallback() {
             @Override
