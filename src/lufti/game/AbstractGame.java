@@ -57,5 +57,12 @@ public abstract class AbstractGame {
      * @param input All the input commands from the player. 
      */
     public abstract void update(PlayerInput input);
+    
+    /**
+     * This function should paint all the elements of the game appropiately on 
+     * the provided canvas.
+     * 
+     * @param pntr The canvas on which to paint.
+     */
     public abstract void render(Canvas.CanvasPainter pntr);
 }
