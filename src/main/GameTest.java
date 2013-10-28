@@ -19,6 +19,7 @@ import lufti.ui.SimpleWindow;
  */
 public class GameTest {
 
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void main(String args[]) throws IOException {
         BufferedImage sheet = ImageIO.read(SpriteTest.class.getResourceAsStream("/lufti/sprites/classic.png"));
         CompactSpriteSheet spr = new CompactSpriteSheet(sheet);
