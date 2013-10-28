@@ -5,10 +5,6 @@ import java.util.TimerTask;
 import lufti.ui.Canvas;
 import lufti.ui.Window;
 
-/**
- *
- * @author ubik
- */
 public abstract class AbstractGame {
     
     private final PlayerInput playerInput = new PlayerInput();
