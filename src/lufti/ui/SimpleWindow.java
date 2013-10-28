@@ -26,6 +26,7 @@ public class SimpleWindow extends javax.swing.JFrame {
         final SimpleWindow win = new SimpleWindow(width, height, fps, background);
 
         java.awt.EventQueue.invokeLater(new Runnable() {
+	    @Override
             public void run() {
                 win.setVisible(true);
             }
