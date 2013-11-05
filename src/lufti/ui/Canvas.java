@@ -57,6 +57,12 @@ public class Canvas extends JPanel {
 			public void drawImage(Image img, int x, int y) {
 				gr.drawImage(img, x, y, null);
 			}
+			
+			@Override
+			public void drawImageBoundary(Image img, int x, int y) {
+				gr.setColor(Color.MAGENTA);
+				gr.drawRect(x, y, img.getWidth(null), img.getHeight(null));
+			}
 		};
 
 		for (RenderCallback cb : renderCallbacks) {
@@ -76,12 +82,11 @@ public class Canvas extends JPanel {
 	}
 
 	public interface RenderCallback {
-
 		public void render(CanvasPainter pntr);
 	}
 
 	public interface CanvasPainter {
-
 		public void drawImage(Image img, int x, int y);
+		public void drawImageBoundary(Image img, int x, int y);
 	}
 }
